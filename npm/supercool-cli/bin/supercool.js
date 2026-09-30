@@ -23,7 +23,17 @@ try {
 
 const result = spawnSync(bin, process.argv.slice(2), { stdio: "inherit" });
 if (result.error) {
-  console.error(`supercool: ${result.error.message}`);
+  console.error(`supercool: couldn't start ${bin}: ${result.error.message}`);
   process.exit(1);
 }
-process.exit(result.status === null ? 1 : result.status);
+if (result.status === null) {
+  // Killed before it could say anything (on macOS, SIGKILL usually means the
+  // system refused the binary): never exit silently.
+  console.error(
+    `supercool: the binary was stopped by ${result.signal || "a signal"} (${bin}).\n` +
+      "Please report this at https://github.com/Famous-Labs/supercool-cli/issues, " +
+      "or install with: curl -fsSL https://supercool.com/install.sh | sh"
+  );
+  process.exit(1);
+}
+process.exit(result.status);
