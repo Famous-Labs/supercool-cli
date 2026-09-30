@@ -38,7 +38,8 @@ function distDir(goSuffix) {
 const distTag = version.includes("-") ? "next" : "latest";
 
 function publish(dir) {
-  const args = ["publish", dir, "--access", "public", "--provenance", "--tag", distTag];
+  // "./" so npm reads a local folder, not a GitHub "user/repo" shorthand.
+  const args = ["publish", `./${dir}`, "--access", "public", "--provenance", "--tag", distTag];
   if (dryRun) args.push("--dry-run");
   execFileSync("npm", args, { stdio: "inherit" });
 }
