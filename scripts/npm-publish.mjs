@@ -34,8 +34,8 @@ function distDir(goSuffix) {
   return join("dist", hit);
 }
 
-// A prerelease (1.0.0-rc.1) goes out under "next", never as "latest".
-const distTag = version.includes("-") ? "next" : "latest";
+// Every release is "latest": npm, GitHub Releases and Homebrew always match.
+const distTag = "latest";
 
 function publish(dir) {
   // "./" so npm reads a local folder, not a GitHub "user/repo" shorthand.

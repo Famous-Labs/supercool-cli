@@ -49,8 +49,6 @@ notarize:
 
 homebrew_casks:
   - name: supercool
-    # Release candidates never reach `brew install`.
-    skip_upload: auto
     repository:
       owner: Famous-Labs
       name: homebrew-tap
@@ -68,7 +66,6 @@ release:
     owner: Famous-Labs
     name: supercool-cli
   name_template: "{{ .Tag }}"
-  prerelease: auto # v1.0.0-rc.1 is a prerelease, never "latest"
 
 changelog:
   sort: asc
