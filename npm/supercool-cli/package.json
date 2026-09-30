@@ -1,0 +1,21 @@
+{
+  "name": "@famous-labs/supercool-cli",
+  "version": "0.0.0",
+  "description": "Your SuperCool agent in the terminal: ask for videos, sites, decks and more, and get the files on disk.",
+  "homepage": "https://supercool.com/cli",
+  "repository": { "type": "git", "url": "git+https://github.com/Famous-Labs/supercool-cli.git" },
+  "bugs": { "url": "https://github.com/Famous-Labs/supercool-cli/issues" },
+  "license": "MIT",
+  "bin": { "supercool": "bin/supercool.js" },
+  "files": ["bin/supercool.js", "README.md"],
+  "engines": { "node": ">=16" },
+  "optionalDependencies": {
+    "@famous-labs/supercool-cli-darwin-arm64": "0.0.0",
+    "@famous-labs/supercool-cli-darwin-x64": "0.0.0",
+    "@famous-labs/supercool-cli-linux-arm64": "0.0.0",
+    "@famous-labs/supercool-cli-linux-x64": "0.0.0",
+    "@famous-labs/supercool-cli-win32-arm64": "0.0.0",
+    "@famous-labs/supercool-cli-win32-x64": "0.0.0"
+  },
+  "keywords": ["supercool", "cli", "ai", "agent", "video", "claude-code"]
+}

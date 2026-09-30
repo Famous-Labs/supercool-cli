@@ -1,0 +1,73 @@
+version: 2
+
+project_name: supercool
+
+before:
+  hooks:
+    - go mod tidy
+    - go test ./...
+
+builds:
+  - id: supercool
+    main: ./cmd/supercool
+    binary: supercool
+    env:
+      - CGO_ENABLED=0
+    goos: [darwin, linux, windows]
+    goarch: [amd64, arm64]
+    flags: [-trimpath]
+    ldflags:
+      - -s -w
+      - -X github.com/Famous-Labs/supercool-cli/internal/version.Version={{.Version}}
+      - -X github.com/Famous-Labs/supercool-cli/internal/version.Commit={{.ShortCommit}}
+      - -X github.com/Famous-Labs/supercool-cli/internal/version.Date={{.Date}}
+
+archives:
+  - id: default
+    name_template: "supercool_{{ .Version }}_{{ .Os }}_{{ .Arch }}"
+    formats: [tar.gz]
+    format_overrides:
+      - goos: windows
+        formats: [zip]
+    files: [LICENSE, README.md]
+
+checksum:
+  name_template: checksums.txt
+
+# macOS binaries are signed and notarized so Gatekeeper opens them.
+notarize:
+  macos:
+    - enabled: '{{ isEnvSet "MACOS_SIGN_P12" }}'
+      sign:
+        certificate: "{{ .Env.MACOS_SIGN_P12 }}"
+        password: "{{ .Env.MACOS_SIGN_PASSWORD }}"
+      notarize:
+        issuer_id: "{{ .Env.MACOS_NOTARY_ISSUER_ID }}"
+        key_id: "{{ .Env.MACOS_NOTARY_KEY_ID }}"
+        key: "{{ .Env.MACOS_NOTARY_KEY }}"
+        wait: true
+
+homebrew_casks:
+  - name: supercool
+    repository:
+      owner: Famous-Labs
+      name: homebrew-tap
+      token: "{{ .Env.HOMEBREW_TAP_TOKEN }}"
+    commit_author:
+      name: famousdotai
+      email: support@famous.ai
+    commit_msg_template: "supercool {{ .Tag }}"
+    homepage: https://supercool.com/cli
+    description: Your SuperCool agent in the terminal
+    binaries: [supercool]
+
+release:
+  github:
+    owner: Famous-Labs
+    name: supercool-cli
+  name_template: "{{ .Tag }}"
+
+changelog:
+  sort: asc
+  filters:
+    exclude: ["^docs:", "^test:", "^ci:"]
