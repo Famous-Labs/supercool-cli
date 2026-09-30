@@ -34,8 +34,11 @@ function distDir(goSuffix) {
   return join("dist", hit);
 }
 
+// A prerelease (1.0.0-rc.1) goes out under "next", never as "latest".
+const distTag = version.includes("-") ? "next" : "latest";
+
 function publish(dir) {
-  const args = ["publish", dir, "--access", "public", "--provenance"];
+  const args = ["publish", dir, "--access", "public", "--provenance", "--tag", distTag];
   if (dryRun) args.push("--dry-run");
   execFileSync("npm", args, { stdio: "inherit" });
 }
