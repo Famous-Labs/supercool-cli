@@ -128,7 +128,7 @@ func tokenCmd() *cobra.Command {
 		Short: "Create or revoke personal access tokens (opens the dashboard)",
 		Long: `Personal access tokens let CI and scripts use your agent without a browser:
 
-  SUPERCOOL_TOKEN=sc_pat_… supercool ask "…" --wait
+  SUPERCOOL_TOKEN=sc_key_… supercool ask "…" --wait
 
 For safety, tokens are created and revoked only in the SuperCool dashboard,
 from a signed-in browser. This opens that page.`,
@@ -138,7 +138,7 @@ from a signed-in browser. This opens that page.`,
 			if err != nil {
 				return err
 			}
-			url := "https://supercool.com/dashboard#connectors"
+			url := "https://supercool.com/dashboard#api"
 			if cfg, err := a.client.CLIConfig(cmd.Context()); err == nil && cfg.DashboardTokensURL != "" {
 				url = cfg.DashboardTokensURL
 			}
