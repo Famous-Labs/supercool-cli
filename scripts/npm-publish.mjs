@@ -64,11 +64,19 @@ for (const t of targets) {
         license: "MIT",
         os: [t.os],
         cpu: [t.cpu],
-        files: ["bin"],
+        homepage: "https://supercool.com/cli",
+        files: ["bin", "README.md"],
       },
       null,
       2
     ) + "\n"
+  );
+  writeFileSync(
+    join(dir, "README.md"),
+    `# ${name}\n\nThe \`supercool\` binary for ${t.os}-${t.cpu}, installed automatically by ` +
+      "[@famous-labs/supercool-cli](https://www.npmjs.com/package/@famous-labs/supercool-cli). " +
+      "Don't install this directly:\n\n```bash\nnpm i -g @famous-labs/supercool-cli\n```\n\n" +
+      "See [supercool.com/cli](https://supercool.com/cli).\n"
   );
   publish(dir);
 }
